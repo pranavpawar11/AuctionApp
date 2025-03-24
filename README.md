@@ -1,7 +1,8 @@
-```markdown
+
 # Auction Platform
 
-This project is an auction management platform built with **React** (frontend) and **Node.js/Express** (backend). The backend runs on **port 3001**.
+This project is an auction management platform built with **React** (frontend) 
+and **Node.js/Express** (backend). The backend runs on **port 3001**.
 
 ## Features
 
@@ -57,4 +58,3 @@ This project is an auction management platform built with **React** (frontend) a
 
 ## License
 This project is open-source and freely modifiable. Feel free to adapt it to your needs.
-```

@@ -1,0 +1,377 @@
+[
+  {
+    "id": 1,
+    "name": "Virat Kohli",
+    "set": "Icon",
+    "category": "Batsman",
+    "basePrice": 2000000,
+    "stats": {
+      "experience": "15y",
+      "strikeRate": 138,
+      "specialty": "Finisher"
+    },
+    "status": "Available",
+    "role": "Middle-Order Batsman",
+    "description": "One of the greatest batsmen of all time, known for his consistency and aggressive batting style. A proven match-winner in all formats."
+  },
+  {
+    "id": 2,
+    "name": "MS Dhoni",
+    "set": "Icon",
+    "category": "Keeper",
+    "basePrice": 2500000,
+    "stats": {
+      "experience": "16y",
+      "strikeRate": 126,
+      "specialty": "Captain"
+    },
+    "status": "Available",
+    "role": "Wicketkeeper-Batsman",
+    "description": "Legendary captain and finisher, known for his calm demeanor and exceptional leadership skills. A master of run chases."
+  },
+  {
+    "id": 3,
+    "name": "Rohit Sharma",
+    "set": "Icon",
+    "category": "Batsman",
+    "basePrice": 2200000,
+    "stats": {
+      "experience": "14y",
+      "strikeRate": 135,
+      "specialty": "Opener"
+    },
+    "status": "Available",
+    "role": "Opener Batsman",
+    "description": "A prolific opener with the ability to score big hundreds. Known for his elegant stroke play and timing."
+  },
+  {
+    "id": 4,
+    "name": "Jasprit Bumrah",
+    "set": "Icon",
+    "category": "Bowler",
+    "basePrice": 1800000,
+    "stats": {
+      "experience": "9y",
+      "economy": 6.7,
+      "specialty": "Yorker"
+    },
+    "status": "Available",
+    "role": "Death Overs Bowler",
+    "description": "One of the best fast bowlers in the world, known for his deadly yorkers and ability to bowl in any situation."
+  },
+  {
+    "id": 5,
+    "name": "Hardik Pandya",
+    "set": "Icon",
+    "category": "All-Rounder",
+    "basePrice": 1900000,
+    "stats": {
+      "experience": "8y",
+      "strikeRate": 145,
+      "economy": 8.2
+    },
+    "status": "Available",
+    "role": "Power-Hitting All-Rounder",
+    "description": "A dynamic all-rounder who can change the game with both bat and ball. Known for his explosive batting and handy medium-pace bowling."
+  },
+  {
+    "id": 6,
+    "name": "KL Rahul",
+    "set": "Batsman",
+    "category": "Batsman",
+    "basePrice": 1600000,
+    "stats": {
+      "experience": "7y",
+      "strikeRate": 132,
+      "specialty": "Opener"
+    },
+    "status": "Available",
+    "role": "Opener Batsman",
+    "description": "A versatile batsman who can open the innings or play in the middle order. Known for his elegant stroke play and adaptability."
+  },
+  {
+    "id": 7,
+    "name": "Shubman Gill",
+    "set": "Batsman",
+    "category": "Batsman",
+    "basePrice": 1400000,
+    "stats": {
+      "experience": "4y",
+      "strikeRate": 129,
+      "specialty": "Classical"
+    },
+    "status": "Available",
+    "role": "Top-Order Batsman",
+    "description": "A young and talented batsman with a classical technique. Known for his ability to anchor the innings."
+  },
+  {
+    "id": 8,
+    "name": "Shreyas Iyer",
+    "set": "Batsman",
+    "category": "Batsman",
+    "basePrice": 1300000,
+    "stats": {
+      "experience": "6y",
+      "strikeRate": 130,
+      "specialty": "Middle Order"
+    },
+    "status": "Available",
+    "role": "Middle-Order Batsman",
+    "description": "A reliable middle-order batsman who can stabilize the innings and accelerate when needed. Known for his composure under pressure."
+  },
+  {
+    "id": 9,
+    "name": "Prithvi Shaw",
+    "set": "Batsman",
+    "category": "Batsman",
+    "basePrice": 1100000,
+    "stats": {
+      "experience": "5y",
+      "strikeRate": 142,
+      "specialty": "Aggressor"
+    },
+    "status": "Available",
+    "role": "Aggressive Opener",
+    "description": "An aggressive opener who can dominate the powerplay. Known for his fearless approach and quick scoring."
+  },
+  {
+    "id": 10,
+    "name": "Ishan Kishan",
+    "set": "Batsman",
+    "category": "Batsman",
+    "basePrice": 1200000,
+    "stats": {
+      "experience": "5y",
+      "strikeRate": 136,
+      "specialty": "Power Hitter"
+    },
+    "status": "Available",
+    "role": "Power-Hitting Batsman",
+    "description": "A left-handed batsman known for his explosive hitting and ability to play match-winning knocks."
+  },
+  {
+    "id": 11,
+    "name": "Mohammed Shami",
+    "set": "Bowler",
+    "category": "Bowler",
+    "basePrice": 1500000,
+    "stats": {
+      "experience": "11y",
+      "economy": 7.8,
+      "specialty": "Seam"
+    },
+    "status": "Available",
+    "role": "Seam Bowler",
+    "description": "A skilled fast bowler known for his ability to swing the ball and pick up crucial wickets."
+  },
+  {
+    "id": 12,
+    "name": "Yuzvendra Chahal",
+    "set": "Bowler",
+    "category": "Bowler",
+    "basePrice": 1400000,
+    "stats": {
+      "experience": "9y",
+      "economy": 7.6,
+      "specialty": "Leg Spin"
+    },
+    "status": "Available",
+    "role": "Leg-Spin Bowler",
+    "description": "A crafty leg-spinner who can outfox batsmen with his variations. Known for his wicket-taking ability in the middle overs."
+  },
+  {
+    "id": 13,
+    "name": "Kuldeep Yadav",
+    "set": "Bowler",
+    "category": "Bowler",
+    "basePrice": 1200000,
+    "stats": {
+      "experience": "7y",
+      "economy": 7.9,
+      "specialty": "Chinaman"
+    },
+    "status": "Available",
+    "role": "Chinaman Bowler",
+    "description": "A rare left-arm wrist-spinner known for his ability to deceive batsmen with his flight and turn."
+  },
+  {
+    "id": 14,
+    "name": "T Natarajan",
+    "set": "Bowler",
+    "category": "Bowler",
+    "basePrice": 1000000,
+    "stats": {
+      "experience": "4y",
+      "economy": 8.1,
+      "specialty": "Yorker"
+    },
+    "status": "Available",
+    "role": "Yorker Specialist",
+    "description": "A left-arm pacer known for his pinpoint yorkers and ability to bowl under pressure in the death overs."
+  },
+  {
+    "id": 15,
+    "name": "Bhuvneshwar Kumar",
+    "set": "Bowler",
+    "category": "Bowler",
+    "basePrice": 1300000,
+    "stats": {
+      "experience": "10y",
+      "economy": 7.2,
+      "specialty": "Swing"
+    },
+    "status": "Available",
+    "role": "Swing Bowler",
+    "description": "A swing bowler who can move the ball both ways. Known for his accuracy and ability to bowl in the powerplay."
+  },
+  {
+    "id": 16,
+    "name": "Rishabh Pant",
+    "set": "Keeper",
+    "category": "Keeper",
+    "basePrice": 1700000,
+    "stats": {
+      "experience": "6y",
+      "strikeRate": 140,
+      "specialty": "Finisher"
+    },
+    "status": "Available",
+    "role": "Wicketkeeper-Batsman",
+    "description": "A dynamic left-handed batsman and wicketkeeper known for his aggressive batting and match-winning abilities."
+  },
+  {
+    "id": 17,
+    "name": "Sanju Samson",
+    "set": "Keeper",
+    "category": "Keeper",
+    "basePrice": 1400000,
+    "stats": {
+      "experience": "8y",
+      "strikeRate": 133,
+      "specialty": "Clean Striker"
+    },
+    "status": "Available",
+    "role": "Wicketkeeper-Batsman",
+    "description": "A stylish batsman and wicketkeeper known for his clean hitting and ability to play elegant shots."
+  },
+  {
+    "id": 18,
+    "name": "KS Bharat",
+    "set": "Keeper",
+    "category": "Keeper",
+    "basePrice": 800000,
+    "stats": {
+      "experience": "3y",
+      "strikeRate": 122,
+      "specialty": "Technical"
+    },
+    "status": "Available",
+    "role": "Wicketkeeper-Batsman",
+    "description": "A technically sound wicketkeeper-batsman known for his solid glovework and ability to anchor the innings."
+  },
+  {
+    "id": 19,
+    "name": "Jitesh Sharma",
+    "set": "Keeper",
+    "category": "Keeper",
+    "basePrice": 700000,
+    "stats": {
+      "experience": "2y",
+      "strikeRate": 145,
+      "specialty": "Power Hitter"
+    },
+    "status": "Available",
+    "role": "Wicketkeeper-Batsman",
+    "description": "A hard-hitting wicketkeeper-batsman known for his ability to score quick runs in the lower order."
+  },
+  {
+    "id": 20,
+    "name": "Ravindra Jadeja",
+    "set": "All-Rounder",
+    "category": "All-Rounder",
+    "basePrice": 1800000,
+    "stats": {
+      "experience": "13y",
+      "strikeRate": 128,
+      "economy": 7.5
+    },
+    "status": "Available",
+    "role": "Spin All-Rounder",
+    "description": "A world-class all-rounder known for his accurate left-arm spin, explosive batting, and exceptional fielding."
+  },
+  {
+    "id": 21,
+    "name": "Axar Patel",
+    "set": "All-Rounder",
+    "category": "All-Rounder",
+    "basePrice": 1500000,
+    "stats": {
+      "experience": "9y",
+      "strikeRate": 130,
+      "economy": 7.8
+    },
+    "status": "Available",
+    "role": "Spin All-Rounder",
+    "description": "A reliable all-rounder who can contribute with both bat and ball. Known for his economical left-arm spin."
+  },
+  {
+    "id": 22,
+    "name": "Washington Sundar",
+    "set": "All-Rounder",
+    "category": "All-Rounder",
+    "basePrice": 1100000,
+    "stats": {
+      "experience": "6y",
+      "strikeRate": 124,
+      "economy": 7.3
+    },
+    "status": "Available",
+    "role": "Spin All-Rounder",
+    "description": "A talented off-spin all-rounder who can bat in the top order and bowl economical spells."
+  },
+  {
+    "id": 23,
+    "name": "Venkatesh Iyer",
+    "set": "All-Rounder",
+    "category": "All-Rounder",
+    "basePrice": 1000000,
+    "stats": {
+      "experience": "3y",
+      "strikeRate": 136,
+      "economy": 8.4
+    },
+    "status": "Available",
+    "role": "Power-Hitting All-Rounder",
+    "description": "A hard-hitting all-rounder who can bowl medium pace and score quick runs in the middle order."
+  },
+  {
+    "id": 24,
+    "name": "Shardul Thakur",
+    "set": "All-Rounder",
+    "category": "All-Rounder",
+    "basePrice": 1200000,
+    "stats": {
+      "experience": "7y",
+      "strikeRate": 138,
+      "economy": 8.9
+    },
+    "status": "Available",
+    "role": "Pace All-Rounder",
+    "description": "A handy all-rounder who can contribute with both bat and ball. Known for his ability to pick up crucial wickets."
+  },
+  {
+    "id": 25,
+    "name": "Deepak Chahar",
+    "set": "All-Rounder",
+    "category": "All-Rounder",
+    "basePrice": 1300000,
+    "stats": {
+      "experience": "8y",
+      "strikeRate": 122,
+      "economy": 7.7
+    },
+    "status": "Available",
+    "role": "Swing All-Rounder",
+    "description": "A swing bowler who can also contribute with the bat. Known for his ability to swing the ball early in the innings."
+  }
+]

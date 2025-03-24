@@ -1,0 +1,170 @@
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import teamsData from '../data/teams.json';
+import playersData from '../data/players.json';
+
+const AuctionContext = createContext();
+
+export const useAuction = () => useContext(AuctionContext);
+
+export const AuctionProvider = ({ children }) => {
+  const [teams, setTeams] = useState([]);
+  const [players, setPlayers] = useState([]);
+  const [currentSet, setCurrentSet] = useState('Icon');
+  const [currentPlayer, setCurrentPlayer] = useState(null);
+  const [currentBid, setCurrentBid] = useState(0);
+  const [leadingTeam, setLeadingTeam] = useState(null);
+  const [bidHistory, setBidHistory] = useState([]);
+
+  const sets = ['Icon', 'Batsman', 'Bowler', 'Keeper', 'All-Rounder'];
+
+  useEffect(() => {
+    // Load data
+    setTeams(teamsData);
+    setPlayers(playersData);
+    
+    // Set initial player
+    const initialPlayer = playersData.find(p => p.set === currentSet && p.status === 'Available');
+    setCurrentPlayer(initialPlayer || null);
+    if (initialPlayer) {
+      setCurrentBid(initialPlayer.basePrice);
+      setLeadingTeam(null);
+      setBidHistory([]);
+    }
+  }, []);
+
+  const getBidStep = (amount) => {
+    const bidIncrementRules = [
+      { threshold: 1000000, step: 100000 },   // Below 1cr
+      { threshold: 2000000, step: 200000 },   // Below 2cr
+      { step: 250000 }                        // Above 2cr
+    ];
+
+    for (const rule of bidIncrementRules) {
+      if (!rule.threshold || amount < rule.threshold) {
+        return rule.step;
+      }
+    }
+    return bidIncrementRules[bidIncrementRules.length - 1].step;
+  };
+
+  const placeBid = (teamId, amount) => {
+    const team = teams.find(t => t.id === teamId);
+    
+    // Validate bid
+    if (!team || team.currentPurse < amount) {
+      return false;
+    }
+
+    setCurrentBid(amount);
+    setLeadingTeam(team);
+    
+    // Add to bid history
+    setBidHistory([
+      ...bidHistory,
+      { 
+        id: bidHistory.length + 1, 
+        teamId, 
+        teamName: team.name, 
+        amount, 
+        timestamp: new Date().toISOString() 
+      }
+    ]);
+
+    return true;
+  };
+
+  const confirmSale = () => {
+    if (!leadingTeam || !currentPlayer) return false;
+
+    // Update team purse and players
+    console.log("bid :",currentBid);
+    const updatedTeams = teams.map(team => {
+      if (team.id === leadingTeam.id) {
+        return {
+          ...team,
+          currentPurse: team.currentPurse - currentBid,
+          players: [...team.players, { ...currentPlayer, soldPrice: currentBid }]
+        };
+      }
+      return team;
+    });
+
+    // Update player status
+    const updatedPlayers = players.map(player => {
+      if (player.id === currentPlayer.id) {
+        return { ...player, status: 'Sold', soldTo: leadingTeam.id, soldPrice: currentBid };
+      }
+      return player;
+    });
+
+    setTeams(updatedTeams);
+    setPlayers(updatedPlayers);
+
+    // Move to next player
+    const nextPlayer = players.find(
+      p => p.set === currentSet && p.status === 'Available' && p.id !== currentPlayer.id
+    );
+    
+    if (nextPlayer) {
+      setCurrentPlayer(nextPlayer);
+      setCurrentBid(nextPlayer.basePrice);
+      setLeadingTeam(null);
+      setBidHistory([]);
+    } else {
+      // Try to move to next set
+      const currentSetIndex = sets.indexOf(currentSet);
+      if (currentSetIndex < sets.length - 1) {
+        const nextSet = sets[currentSetIndex + 1];
+        const nextSetPlayer = players.find(p => p.set === nextSet && p.status === 'Available');
+        
+        if (nextSetPlayer) {
+          setCurrentSet(nextSet);
+          setCurrentPlayer(nextSetPlayer);
+          setCurrentBid(nextSetPlayer.basePrice);
+          setLeadingTeam(null);
+          setBidHistory([]);
+        } else {
+          setCurrentPlayer(null);
+        }
+      } else {
+        setCurrentPlayer(null);
+      }
+    }
+
+    return true;
+  };
+
+  const changeSet = (set) => {
+    if (sets.includes(set)) {
+      setCurrentSet(set);
+      const nextPlayer = players.find(p => p.set === set && p.status === 'Available');
+      if (nextPlayer) {
+        setCurrentPlayer(nextPlayer);
+        setCurrentBid(nextPlayer.basePrice);
+        setLeadingTeam(null);
+        setBidHistory([]);
+      } else {
+        setCurrentPlayer(null);
+      }
+    }
+  };
+
+  return (
+    <AuctionContext.Provider value={{
+      teams,
+      players,
+      currentSet,
+      sets,
+      currentPlayer,
+      currentBid,
+      leadingTeam,
+      bidHistory,
+      getBidStep,
+      placeBid,
+      confirmSale,
+      changeSet
+    }}>
+      {children}
+    </AuctionContext.Provider>
+  );
+};

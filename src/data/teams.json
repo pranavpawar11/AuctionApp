@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "Thunderbolts",
+    "password": "team1pass",
+    "logo": "⚡",
+    "initialPurse": 50000000,
+    "currentPurse": 50000000,
+    "players": []
+  },
+  {
+    "id": 2,
+    "name": "Titans",
+    "password": "team2pass",
+    "logo": "🔱",
+    "initialPurse": 50000000,
+    "currentPurse": 50000000,
+    "players": []
+  },
+  {
+    "id": 3,
+    "name": "Lions",
+    "password": "team3pass",
+    "logo": "🦁",
+    "initialPurse": 50000000,
+    "currentPurse": 50000000,
+    "players": []
+  },
+  {
+    "id": 4,
+    "name": "Dragons",
+    "password": "team4pass",
+    "logo": "🐉",
+    "initialPurse": 50000000,
+    "currentPurse": 50000000,
+    "players": []
+  },
+  {
+    "id": 5,
+    "name": "Panthers",
+    "password": "team5pass",
+    "logo": "🐆",
+    "initialPurse": 50000000,
+    "currentPurse": 50000000,
+    "players": []
+  },
+  {
+    "id": 6,
+    "name": "Wizards",
+    "password": "team6pass",
+    "logo": "🧙",
+    "initialPurse": 50000000,
+    "currentPurse": 50000000,
+    "players": []
+  },
+  {
+    "id": 7,
+    "name": "Falcons",
+    "password": "team7pass",
+    "logo": "🦅",
+    "initialPurse": 50000000,
+    "currentPurse": 50000000,
+    "players": []
+  },
+  {
+    "id": 8,
+    "name": "Warriors",
+    "password": "team8pass",
+    "logo": "⚔️",
+    "initialPurse": 50000000,
+    "currentPurse": 50000000,
+    "players": []
+  }
+  ]

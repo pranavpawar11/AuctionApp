@@ -20,26 +20,26 @@ This project is an auction management platform built with **React** (frontend) a
 
 ### Backend Setup
 1. Navigate to the main folder:
-   ```
-   cd auction
+   ```bash
+   cd backend
    ```
 2. Start the backend server:
-   ```
+   ```bash
    node server.js
    ```
    - Runs on **port 3001**
 
 ### Frontend Setup
 1. Navigate to the main folder:
-   ```
-   cd auction
+   ```bash
+   cd frontend
    ```
 2. Install dependencies:
-   ```
+   ```bash
    npm install
    ```
 3. Start the frontend:
-   ```
+   ```bash
    npm start
    ```
    - Open [http://localhost:3000](http://localhost:3000) in your browser

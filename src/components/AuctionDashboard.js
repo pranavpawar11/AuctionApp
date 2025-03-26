@@ -14,11 +14,11 @@ function AuctionDashboard() {
   const [showSetModal, setShowSetModal] = useState(false);
   const [showDataModal, setShowDataModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  
+
   const handleLogout = () => {
     // Reset device role in context
     // resetDeviceRole();
-    
+
     // Clear any stored team/admin data
     localStorage.removeItem('auction_deviceRole');
     setDeviceRole(null)
@@ -31,11 +31,25 @@ function AuctionDashboard() {
       {/* Header with Set Selector and Logout Buttons */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
         <h1 className="text-3xl font-bold text-white flex items-center">
-          <span className="mr-3">🏏</span> 
+          <span className="mr-3">🏏</span>
           IPL Auction Dashboard
         </h1>
 
         <div className="flex gap-3">
+
+          <button
+            onClick={() => setShowDataModal(true)}
+            className="px-5 py-2.5 bg-white text-primary-accent rounded-lg shadow-md hover:bg-gray-50 transition-colors duration-150 font-semibold flex items-center"
+          >
+            <span className="mr-2">📊</span> Manage Data
+          </button>
+          <button
+            onClick={() => setShowSetModal(true)}
+            className="px-5 py-2.5 bg-white text-primary-accent rounded-lg shadow-md hover:bg-gray-50 transition-colors duration-150 font-semibold flex items-center"
+          >
+            <span className="mr-2">📋</span> Change Set
+          </button>
+
           <button
             onClick={() => setShowLogoutModal(true)}
             className="px-5 py-2.5 bg-red-600 text-white rounded-lg shadow-md hover:bg-red-700 transition-colors duration-150 font-semibold flex items-center"
@@ -44,18 +58,6 @@ function AuctionDashboard() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
             Logout
-          </button>
-          <button
-            onClick={() => setShowDataModal(true)}
-            className="px-5 py-2.5 bg-white text-primary-dark rounded-lg shadow-md hover:bg-gray-50 transition-colors duration-150 font-semibold flex items-center"
-          >
-            <span className="mr-2">📊</span> Manage Data
-          </button>
-          <button
-            onClick={() => setShowSetModal(true)}
-            className="px-5 py-2.5 bg-primary-accent text-white rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-150 font-semibold flex items-center"
-          >
-            <span className="mr-2">📋</span> Change Set
           </button>
         </div>
       </div>
@@ -107,13 +109,13 @@ function AuctionDashboard() {
         <SetNavigationModal onClose={() => setShowSetModal(false)} />
       )}
       {showDataModal && <DataManagementModal onClose={() => setShowDataModal(false)} />}
-      
+
       {/* Logout Confirmation Modal */}
       {showLogoutModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl p-6 max-w-md w-full mx-4">
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+          <div className="bg-gradient-to-r from-red-50 to-red-200 rounded-xl shadow-xl p-6 max-w-md w-full mx-4">
             <div className="text-center">
-              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-red-200 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>

@@ -32,9 +32,9 @@ export const AuctionProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   // Hardcoded server address
-  const serverAddress = 'localhost:3001'; // Replace with your server address if different
+  const serverAddress = '192.168.231.31:3001'; // Replace with your server address if different
 
-  const sets = ['Icon', 'Batsman', 'Bowler', 'Keeper', 'All-Rounder'];
+  const sets = ['Icon', 'Batsman', 'Bowler', 'Keeper', 'All-Rounder', 'Unsold'];
 
   // Socket.IO connection setup
   useEffect(() => {
@@ -47,7 +47,7 @@ export const AuctionProvider = ({ children }) => {
     newSocket.on('connect', () => {
       console.log('Socket.IO connected');
       setIsConnected(true);
-      
+
       // Send identity information to server
       newSocket.emit('identity', {
         deviceId,
@@ -58,7 +58,7 @@ export const AuctionProvider = ({ children }) => {
 
     newSocket.on('stateUpdate', (payload) => {
       console.log('Received state update:', payload);
-      
+
       // Only update states that exist in the payload
       if (payload.teams) setTeams(payload.teams);
       if (payload.players) setPlayers(payload.players);
@@ -67,7 +67,7 @@ export const AuctionProvider = ({ children }) => {
       if (payload.currentBid !== undefined) setCurrentBid(payload.currentBid);
       if (payload.leadingTeam !== undefined) setLeadingTeam(payload.leadingTeam);
       if (payload.bidHistory) setBidHistory(payload.bidHistory);
-      
+
       // Update team info if this is a team device
       if (deviceRole === 'team' && payload.teams) {
         const teamId = localStorage.getItem('selectedTeamId');
@@ -82,7 +82,7 @@ export const AuctionProvider = ({ children }) => {
 
     newSocket.on('identityConfirmed', (data) => {
       console.log('Identity confirmed:', data);
-      
+
       // If we receive a full state, update our state
       if (data.currentState) {
         if (data.currentState.teams) setTeams(data.currentState.teams);
@@ -144,7 +144,7 @@ export const AuctionProvider = ({ children }) => {
     setDeviceRole('admin');
     localStorage.removeItem('selectedTeamId');
     setTeam(null);
-    
+
     if (socket?.connected) {
       socket.emit('identity', { deviceId, role: 'admin' });
     }
@@ -153,7 +153,7 @@ export const AuctionProvider = ({ children }) => {
   const setDeviceAsTeam = (teamId) => {
     setDeviceRole('team');
     localStorage.setItem('selectedTeamId', teamId);
-    
+
     // Find and set the team object
     if (teams.length > 0) {
       const selectedTeam = teams.find(t => t.id.toString() === teamId.toString());
@@ -161,7 +161,7 @@ export const AuctionProvider = ({ children }) => {
         setTeam(selectedTeam);
       }
     }
-    
+
     if (socket?.connected) {
       socket.emit('identity', { deviceId, role: 'team', teamId });
     }
@@ -171,7 +171,7 @@ export const AuctionProvider = ({ children }) => {
     setDeviceRole('viewer');
     localStorage.removeItem('selectedTeamId');
     setTeam(null);
-    
+
     if (socket?.connected) {
       socket.emit('identity', { deviceId, role: 'viewer' });
     }
@@ -254,66 +254,68 @@ export const AuctionProvider = ({ children }) => {
     return sendMessage('sale', saleRecord);
   };
 
+
   const moveToNextPlayer = () => {
     if (deviceRole !== 'admin') {
       console.error('Only admin can move to next player');
       return false;
     }
-  
-    // Mark the current player as unsold if they're available
-    if (currentPlayer && currentPlayer.status === 'Available') {
-      const updatedPlayers = players.map(p => {
-        if (p.id === currentPlayer.id) {
-          return { ...p, status: 'Unsold' };
-        }
-        return p;
+
+    // Ensure the current player is properly marked as Unsold if applicable
+    const updatedPlayers = players.map(p => {
+      if (p.id === currentPlayer?.id && p.status === 'Available') {
+        return {
+          ...p,
+          status: 'Available',
+          set: 'Unsold',
+          previousSet: p.set || currentSet // Store original set for reference
+        };
+      }
+      return p;
+    });
+
+    // Find the next available player in current set
+    const nextPlayer = updatedPlayers.find(p =>
+      p.set === currentSet &&
+      p.status === 'Available' &&
+      p.id !== currentPlayer?.id
+    );
+
+    if (nextPlayer) {
+      // Move to next player in current set
+      return sendMessage('stateUpdate', {
+        players: updatedPlayers,
+        currentPlayer: nextPlayer,
+        currentBid: nextPlayer.basePrice,
+        leadingTeam: null,
+        bidHistory: []
       });
-  
-      // Find the next available player in current set
-      const nextPlayer = updatedPlayers.find(p => 
-        p.set === currentSet && 
-        p.status === 'Available' && 
-        p.id !== currentPlayer?.id
-      );
-      
-      if (nextPlayer) {
-        // Move to next player in current set
+    } else {
+      // Check if we need to move to the next set
+      const currentSetIndex = sets.indexOf(currentSet);
+      if (currentSetIndex < sets.length - 1) {
+        const nextSet = sets[currentSetIndex + 1];
+        const nextSetPlayer = updatedPlayers.find(p => p.set === nextSet && p.status === 'Available');
+
         return sendMessage('stateUpdate', {
           players: updatedPlayers,
-          currentPlayer: nextPlayer,
-          currentBid: nextPlayer.basePrice,
+          currentSet: nextSet,
+          currentPlayer: nextSetPlayer || null,
+          currentBid: nextSetPlayer?.basePrice || 0,
           leadingTeam: null,
           bidHistory: []
         });
       } else {
-        // Check if we need to move to the next set
-        const currentSetIndex = sets.indexOf(currentSet);
-        if (currentSetIndex < sets.length - 1) {
-          const nextSet = sets[currentSetIndex + 1];
-          const nextSetPlayer = updatedPlayers.find(p => p.set === nextSet && p.status === 'Available');
-          
-          return sendMessage('stateUpdate', {
-            players: updatedPlayers,
-            currentSet: nextSet,
-            currentPlayer: nextSetPlayer || null,
-            currentBid: nextSetPlayer?.basePrice || 0,
-            leadingTeam: null,
-            bidHistory: []
-          });
-        } else {
-          // No more sets - auction complete
-          return sendMessage('stateUpdate', {
-            players: updatedPlayers,
-            currentPlayer: null,
-            currentBid: 0,
-            leadingTeam: null,
-            bidHistory: []
-          });
-        }
+        // No more sets - auction complete
+        return sendMessage('stateUpdate', {
+          players: updatedPlayers,
+          currentPlayer: null,
+          currentBid: 0,
+          leadingTeam: null,
+          bidHistory: []
+        });
       }
     }
-    
-    return false;
   };
 
   const changeSet = (set) => {
@@ -324,7 +326,7 @@ export const AuctionProvider = ({ children }) => {
 
     if (sets.includes(set)) {
       const nextPlayer = players.find(p => p.set === set && p.status === 'Available');
-      
+
       return sendMessage('stateUpdate', {
         currentSet: set,
         currentPlayer: nextPlayer || null,
@@ -334,6 +336,24 @@ export const AuctionProvider = ({ children }) => {
       });
     }
     return false;
+  };
+
+  const changePlayerSet = (playerId, newSet) => {
+    if (deviceRole !== 'admin') {
+      console.error('Only admin can change player set');
+      return false;
+    }
+
+    const updatedPlayers = players.map(p => {
+      if (p.id === playerId) {
+        return { ...p, set: newSet };
+      }
+      return p;
+    });
+
+    return sendMessage('stateUpdate', {
+      players: updatedPlayers
+    });
   };
 
   const uploadTeamsData = (jsonData) => {
@@ -375,7 +395,7 @@ export const AuctionProvider = ({ children }) => {
     }
 
     const initialPlayer = playersData.find(p => p.set === 'Icon' && p.status === 'Available');
-    
+
     return sendMessage('stateUpdate', {
       teams: teamsData,
       players: playersData,
@@ -414,6 +434,7 @@ export const AuctionProvider = ({ children }) => {
       changeSet,
       resetAuction,
       moveToNextPlayer,
+      changePlayerSet,
       setDeviceRole,
       team
     }}>

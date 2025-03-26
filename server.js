@@ -26,7 +26,7 @@ let auctionState = {
   currentBid: playersData.find(p => p.set === 'Icon' && p.status === 'Available')?.basePrice || 0,
   leadingTeam: null,
   bidHistory: [],
-  sets: ['Icon', 'Batsman', 'Bowler', 'Keeper', 'All-Rounder']
+  sets: ['Icon', 'Batsman', 'Bowler', 'Keeper', 'All-Rounder', 'Unsold']
 };
 // Track connected clients
 const clients = new Map();
@@ -94,41 +94,44 @@ io.on('connection', (socket) => {
   });
 
   socket.on('stateUpdate', (partialState) => {
-    // Only admin can send state updates
-    const clientInfo = Array.from(clients.entries())
-      .find(([_, info]) => info.socket.id === socket.id);
-
-    if (!clientInfo || clientInfo[1].role !== 'admin') {
-      socket.emit('error', { message: 'Unauthorized state update attempt' });
-      return;
+    // Ensure unsold players are correctly set
+    if (partialState.players) {
+      partialState.players = partialState.players.map(player => ({
+        ...player,
+        set: player.status === 'Unsold' ? 'Unsold' : player.set
+      }));
     }
-
-    // Update the auction state with the partial update
+    
+    // Update state and broadcast
     auctionState = { ...auctionState, ...partialState };
-
-    // Broadcast the full state to all clients
     io.emit('stateUpdate', auctionState);
   });
+
 
   // Handle player status update (if a player is marked as unsold)
   socket.on('playerStatusUpdate', (data) => {
     // Only admin can update player status
     const clientInfo = Array.from(clients.entries())
       .find(([_, info]) => info.socket.id === socket.id);
-
+  
     if (!clientInfo || clientInfo[1].role !== 'admin') {
       socket.emit('error', { message: 'Unauthorized player status update attempt' });
       return;
     }
-
+  
     if (data.players) {
-      auctionState.players = data.players;
+      // Update players and make sure unsold players have set='Unsold'
+      auctionState.players = data.players.map(player => {
+        if (player.status === 'Unsold' && player.set !== 'Unsold') {
+          return { ...player, set: 'Unsold' };
+        }
+        return player;
+      });
     }
-
+  
     // Broadcast the updated state to all clients
     io.emit('stateUpdate', auctionState);
   });
-
   socket.on('disconnect', () => {
     console.log(`Client disconnected: ${socket.id}`);
 
@@ -220,6 +223,11 @@ const processSale = (teamId, player, amount) => {
     playerRecord.status = 'Sold';
     playerRecord.soldTo = teamId;
     playerRecord.soldPrice = amount;
+    
+    // If player was in Unsold set, we need to remove them from there
+    if (playerRecord.set === 'Unsold') {
+      playerRecord.previousSet = 'Unsold'; // Keep track of previous set
+    }
 
     // 4. Find next available player
     const currentSetPlayers = auctionState.players.filter(p =>

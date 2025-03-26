@@ -114,28 +114,28 @@ function PlayerCard() {
         </div>
       </div>
 
-    {/* Footer */}
-<div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
-  <div className="flex gap-2">
-    {!currentBid || currentBid === currentPlayer.basePrice ? (
-      // If no bidding has started, show only "Mark Unsold" button
-      <button
-        onClick={() => setShowUnsoldModal(true)}
-        className="w-full py-3 rounded-lg font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-red-400 to-red-900 hover:shadow-lg text-white"
-      >
-        Mark Unsold
-      </button>
-    ) : (
-      // Once bidding starts, show only "Confirm Sale" button
-      <button
-        onClick={() => setShowSellModal(true)}
-        className="w-full py-3 rounded-lg font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-success to-success hover:shadow-lg text-white"
-      >
-        Confirm Sale
-      </button>
-    )}
-  </div>
-</div>
+      {/* Footer */}
+      <div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
+        <div className="flex gap-2">
+          {!currentBid || !leadingTeam ? (
+            // If no bidding has started, show only "Mark Unsold" button
+            <button
+              onClick={() => setShowUnsoldModal(true)}
+              className="w-full py-3 rounded-lg font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-red-400 to-red-900 hover:shadow-lg text-white"
+            >
+              Mark Unsold
+            </button>
+          ) : (
+            // Once bidding starts, show only "Confirm Sale" button
+            <button
+              onClick={() => setShowSellModal(true)}
+              className="w-full py-3 rounded-lg font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-success to-success hover:shadow-lg text-white"
+            >
+              Confirm Sale
+            </button>
+          )}
+        </div>
+      </div>
 
       {showSellModal && <SellConfirmationModal onClose={() => setShowSellModal(false)} />}
       {showUnsoldModal && <UnsoldConfirmationModal onClose={() => setShowUnsoldModal(false)} />} {/* Add this line */}
